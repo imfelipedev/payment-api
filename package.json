@@ -1,0 +1,27 @@
+{
+    "name": "api-redentor-payment",
+    "description": "Paymeny API.",
+    "version": "1.0.0",
+    "license": "ISC",
+    "author": "zFelpszada (imfelipedev)",
+    "main": "dist/app.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/app.js",
+        "dev": "ts-node src/app.ts"
+    },
+    "dependencies": {
+        "fastify": "^5.2.1",
+        "mercadopago": "^2.3.0",
+        "@prisma/client": "^6.4.1"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "prisma": "^6.4.1",
+        "ts-jest": "^29.2.6",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.2",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.13.9"
+    }
+}
