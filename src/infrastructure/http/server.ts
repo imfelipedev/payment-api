@@ -19,7 +19,7 @@ export class Server {
     }
 
     public async start(port: number) {
-        this.instance.listen({ port: port }, () => {
+        this.instance.listen({ port: port, host: "0.0.0.0" }, () => {
             console.log(`\x1b[32m[\x1b[1mSUCCESS]\x1b[0m - Server started at http://localhost:${port}/ 🚀`);
         });
     }
