@@ -30,7 +30,7 @@ export class PaymentGatewayMercadoPago implements PaymentGateway {
     }
 
     public async create(input: CreateMercadopagoInputDTO): Promise<CreateMercadopagoOutputDTO> {
-        const result = await this.instance.create({
+        const request = {
             requestOptions: {
                 idempotencyKey: input.id,
             },
@@ -41,10 +41,14 @@ export class PaymentGatewayMercadoPago implements PaymentGateway {
                 payment_method_id: "pix",
                 external_reference: input.id,
                 transaction_amount: input.price,
-                notification_url: `${process.env.API_URL}/api/v1/payment/update`,
             },
-        });
+        };
 
+        if (process.env.API_URL !== "http://localhost:3000") {
+            request.body.notification_url = `${process.env.API_URL}/api/v1/payment/update`;
+        }
+
+        const result = await this.instance.create(request);
         if (result.api_response.status !== 201) {
             throw new ServiceException("Não foi possível criar o pagamento.");
         }
