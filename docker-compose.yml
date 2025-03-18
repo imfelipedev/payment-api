@@ -3,7 +3,7 @@ version: "3.8"
 services:
     mariadb:
         image: mariadb:10.5
-        container_name: mariadb_prod
+        container_name: mariadb
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: admin123
@@ -15,35 +15,19 @@ services:
         networks:
             - app_network
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin:latest
-        container_name: phpmyadmin_prod
-        restart: always
-        environment:
-            PMA_HOST: mariadb
-            MYSQL_ROOT_PASSWORD: admin123
-        ports:
-            - "9090:80"
-        depends_on:
-            - mariadb
-        networks:
-            - app_network
-
     app:
-        build: .
-        container_name: api_payment_app
-        restart: always
-        environment:
-            BASE_URL: http://localhost:3000
-            SERVER_PORT: 3000
-            DATABASE_URL: mysql://root:admin123@mariadb:3306/payment
-            MERCADOPAGO_ACCESS_TOKEN: your_mercadopago_access_token
-        ports:
-            - "3000:3000"
+        build:
+            context: .
+            target: build #production
         depends_on:
             - mariadb
         networks:
             - app_network
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/app
+            - /app/node_modules
 
 networks:
     app_network:
